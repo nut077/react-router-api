@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { arrayExpression } from '@babel/types';
+import classNames from 'classnames';
 
-const School = ({ match: { params } }) => {
+const School = ({ match: { params }, location: { search } }) => {
   const [students, setStudents] = useState([]);
-  const [totalPage, setTotalPage] = useState(1);
+  const [page, setPage] = useState({});
   const id = params[0];
   useEffect(() => {
-    axios.get(`/students/schools/${id}`).then(res => {
-      setStudents(res.data);
+    const pageNo = new URLSearchParams(search).get('page');
+    axios.get(`/students/schools/${id}?page=${pageNo || 1}`).then(res => {
+      setStudents(res.data.list);
+      setPage(res.data.page);
     });
-    axios.get(`/students/schools/${id}/totalPage`).then(res => {
-      setTotalPage(res.data);
-    });
-  }, [id]);
+  }, [id, search]);
 
   return (
     <div>
@@ -27,7 +26,25 @@ const School = ({ match: { params } }) => {
       </ul>
       <nav>
         <ul className="pagination">
-          <li>555</li>
+          {Array.from(page).map((_, i) => {
+            const currentIndex = i + 1;
+            return (
+              <li
+                key={currentIndex}
+                className={classNames([
+                  'page-item',
+                  { active: currentIndex === Number(page.page + 1) }
+                ])}
+              >
+                <Link
+                  to={`/students/schools/${id}?page=${currentIndex}`}
+                  className="page-link"
+                >
+                  {currentIndex}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       </nav>
     </div>
