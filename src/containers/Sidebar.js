@@ -17,7 +17,7 @@ function Sidebar() {
         {school.map(({ id, name }) => (
           <NavLink
             key={id}
-            to={`/students/schools/${id}`}
+            to={`/schools/${id}/students`}
             className="list-group-item list-group-item-action"
             activeClassName="active"
           >

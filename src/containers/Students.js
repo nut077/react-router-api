@@ -9,7 +9,7 @@ const School = ({ match: { params }, location: { search } }) => {
   const id = params[0];
   useEffect(() => {
     const pageNo = new URLSearchParams(search).get('page');
-    axios.get(`/students/schools/${id}?page=${pageNo || 1}`).then(res => {
+    axios.get(`/schools/${id}?page=${pageNo || 1}`).then(res => {
       setStudents(res.data.list);
       setPage(res.data.page);
     });
@@ -37,7 +37,7 @@ const School = ({ match: { params }, location: { search } }) => {
                 ])}
               >
                 <Link
-                  to={`/students/schools/${id}?page=${currentIndex}`}
+                  to={`/schools/${id}?page=${currentIndex}`}
                   className="page-link"
                 >
                   {currentIndex}

@@ -9,7 +9,7 @@ const Content = () => (
     <div className="col-7">
       <Route exact path="/" component={Home} />
       <Route exact path="/students/id/*" component={Students} />
-      <Route exact path="/students/schools/*" component={Schools} />
+      <Route exact path="/schools/*" component={Schools} />
     </div>
   </div>
 );
