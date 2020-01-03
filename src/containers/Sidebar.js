@@ -7,7 +7,7 @@ function Sidebar() {
 
   useEffect(() => {
     axios.get('/schools').then(res => {
-      setSchool(res.data);
+      setSchool(res.data.data);
     });
   }, []);
 

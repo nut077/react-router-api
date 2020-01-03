@@ -10,8 +10,12 @@ const School = ({ match: { params }, location: { search } }) => {
   useEffect(() => {
     const pageNo = new URLSearchParams(search).get('page');
     axios.get(`/schools/${id}?page=${pageNo || 1}`).then(res => {
-      setStudents(res.data.list);
-      setPage(res.data.page);
+      if (typeof res.data.data.list !== 'undefined') {
+        setStudents(res.data.data.list);
+      } else {
+        setStudents([]);
+      }
+      setPage(res.data.data.page);
     });
   }, [id, search]);
 
