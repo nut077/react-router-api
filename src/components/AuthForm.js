@@ -1,21 +1,24 @@
-import React, { useState } from 'react';
+import React, { useReducer } from 'react';
 import PropTypes from 'prop-types';
 
 const AuthForm = ({ formName, onSubmit }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [userInput, setUserInput] = useReducer(
+    (state, newState) => ({ ...state, ...newState }),
+    {
+      email: '',
+      password: ''
+    }
+  );
+
+  const handleChange = e => {
+    const name = e.target.name;
+    const newValue = e.target.value;
+    setUserInput({ [name]: newValue });
+  };
 
   const onSubmitForm = e => {
     e.preventDefault();
-    onSubmit({ email, password });
-  };
-
-  const handleEmailChange = e => {
-    setEmail(e.target.value);
-  };
-
-  const handlePasswordChange = e => {
-    setPassword(e.target.value);
+    onSubmit({ userInput });
   };
 
   return (
@@ -29,9 +32,9 @@ const AuthForm = ({ formName, onSubmit }) => {
           className="form-control"
           id="email"
           name="email"
-          value={email}
+          value={userInput.email}
           placeholder="Enter email"
-          onChange={handleEmailChange}
+          onChange={handleChange}
         />
       </div>
       <div className="form-group">
@@ -41,9 +44,9 @@ const AuthForm = ({ formName, onSubmit }) => {
           className="form-control"
           id="password"
           name="password"
-          value={password}
+          value={userInput.password}
           placeholder="Enter password"
-          onChange={handlePasswordChange}
+          onChange={handleChange}
         />
       </div>
       <button type="submit" className="btn btn-primary" onClick={onSubmitForm}>
