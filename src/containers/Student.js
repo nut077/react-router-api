@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 
-const Student = ({ match: { params }, history: { goBack } }) => {
+const Student = ({
+  match: {
+    params: { studentId }
+  },
+  history: { goBack }
+}) => {
   const [student, setStudent] = useState([]);
-  const idStudent = params[0];
   useEffect(() => {
-    axios.get(`/students/${idStudent}`).then(res => {
+    axios.get(`/students/${studentId}`).then(res => {
       setStudent(res.data.data);
     });
-  }, [idStudent]);
+  }, [studentId]);
 
   const { id, firstName, lastName, age } = student;
   const backPrevious = () => {
@@ -46,6 +51,17 @@ const Student = ({ match: { params }, history: { goBack } }) => {
       </div>
     </div>
   );
+};
+
+Student.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      studentId: PropTypes.string.isRequired
+    }).isRequired
+  }).isRequired,
+  history: PropTypes.shape({
+    goBack: PropTypes.func.isRequired
+  }).isRequired
 };
 
 export default Student;

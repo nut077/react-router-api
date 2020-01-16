@@ -2,14 +2,20 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
+import { Auth } from '../lib';
 
-const School = ({ match: { params }, location: { search } }) => {
+const Students = ({
+  match: {
+    params: { schoolId }
+  },
+  location: { search }
+}) => {
   const [students, setStudents] = useState([]);
   const [page, setPage] = useState({});
-  const id = params[0];
   useEffect(() => {
     const pageNo = new URLSearchParams(search).get('page');
-    axios.get(`/schools/${id}?page=${pageNo || 1}`).then(res => {
+    axios.get(`/schools/${schoolId}/students?page=${pageNo || 1}`).then(res => {
       if (typeof res.data.data.list !== 'undefined') {
         setStudents(res.data.data.list);
       } else {
@@ -17,10 +23,18 @@ const School = ({ match: { params }, location: { search } }) => {
       }
       setPage(res.data.data.page);
     });
-  }, [id, search]);
+  }, [schoolId, search]);
 
   return (
     <div>
+      {Auth.getToken() && (
+        <Link
+          to={`/schools/${schoolId}/students/new`}
+          className="btn btn-sm btn-secondary"
+        >
+          Create Student
+        </Link>
+      )}
       <ul className="nav flex-column">
         {students.map(({ id, firstName, lastName }) => (
           <Link key={id} to={`/students/id/${id}`} className="nav-link">
@@ -41,7 +55,7 @@ const School = ({ match: { params }, location: { search } }) => {
                 ])}
               >
                 <Link
-                  to={`/schools/${id}?page=${currentIndex}`}
+                  to={`/schools/${schoolId}/students?page=${currentIndex}`}
                   className="page-link"
                 >
                   {currentIndex}
@@ -55,4 +69,15 @@ const School = ({ match: { params }, location: { search } }) => {
   );
 };
 
-export default School;
+Students.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      schoolId: PropTypes.string.isRequired
+    }).isRequired
+  }).isRequired,
+  location: PropTypes.shape({
+    search: PropTypes.string.isRequired
+  }).isRequired
+};
+
+export default Students;

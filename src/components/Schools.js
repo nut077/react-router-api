@@ -1,7 +1,12 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
-import { Students } from '../containers';
+import { Route, Switch } from 'react-router-dom';
+import { Students, NewStudent } from '../containers';
 
-const Schools = () => <Route to="/schools/:id/students" component={Students} />;
+const Schools = () => (
+  <Switch>
+    <Route path="/schools/:schoolId/students/new" component={NewStudent} />
+    <Route path="/schools/:schoolId/students" component={Students} />;
+  </Switch>
+);
 
 export default Schools;
