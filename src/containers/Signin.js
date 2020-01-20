@@ -17,6 +17,9 @@ const SigninContainer = ({ history: { goBack } }) => {
       .then(() => goBack())
       .catch(function(err) {
         console.log(err);
+        if (err.response.status === 500) {
+          alert('รหัสผ่านไม่ถูกต้อง กรุณาใส่รหัสผ่านอีกครั้ง');
+        }
       });
   };
   return <AuthForm formName="Signin" onSubmit={onSubmit} />;

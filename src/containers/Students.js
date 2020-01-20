@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { Auth } from '../lib';
+import { numericString } from 'airbnb-prop-types';
 
 const Students = ({
   match: {
@@ -37,7 +38,11 @@ const Students = ({
       )}
       <ul className="nav flex-column">
         {students.map(({ id, firstName, lastName }) => (
-          <Link key={id} to={`/students/id/${id}`} className="nav-link">
+          <Link
+            key={id}
+            to={`/schools/${schoolId}/students/${id}`}
+            className="nav-link"
+          >
             {firstName + ' ' + lastName}
           </Link>
         ))}
@@ -72,7 +77,7 @@ const Students = ({
 Students.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      schoolId: PropTypes.string.isRequired
+      schoolId: numericString().isRequired
     }).isRequired
   }).isRequired,
   location: PropTypes.shape({

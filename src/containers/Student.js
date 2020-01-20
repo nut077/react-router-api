@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import { numericString } from 'airbnb-prop-types';
+import { Link } from 'react-router-dom';
+import { Auth } from '../lib';
 
 const Student = ({
   match: {
-    params: { studentId }
+    params: { schoolId, studentId }
   },
   history: { goBack }
 }) => {
@@ -43,11 +46,22 @@ const Student = ({
       <div>
         <button
           type="button"
-          className="btn btn-primary btn-sm"
+          className="btn btn-danger btn-sm"
           onClick={backPrevious}
         >
           Back
         </button>
+        {Auth.getToken() && (
+          <span>
+            &nbsp;
+            <Link
+              to={`/schools/${schoolId}/students/${studentId}/edit`}
+              className="btn btn-secondary btn-sm"
+            >
+              Edit
+            </Link>
+          </span>
+        )}
       </div>
     </div>
   );
@@ -56,7 +70,8 @@ const Student = ({
 Student.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      studentId: PropTypes.string.isRequired
+      schoolId: numericString().isRequired,
+      studentId: numericString().isRequired
     }).isRequired
   }).isRequired,
   history: PropTypes.shape({
