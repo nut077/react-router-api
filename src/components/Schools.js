@@ -1,6 +1,12 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { Students, NewStudent, Student, EditStudent } from '../containers';
+import {
+  Students,
+  NewStudent,
+  Student,
+  EditStudent,
+  NewSchool
+} from '../containers';
 
 const Schools = () => (
   <Switch>
@@ -20,6 +26,7 @@ const Schools = () => (
       path="/schools/:schoolId/students/:studentId/edit"
       component={EditStudent}
     />
+    <Route exact path="/schools/add" component={NewSchool} />
   </Switch>
 );
 

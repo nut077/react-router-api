@@ -11,7 +11,7 @@ const NewStudent = ({
   },
   history: { push }
 }) => {
-  const createStudent = ({ studentInput: { firstName, lastName, age } }) => {
+  const createStudent = ({ firstName, lastName, age }) => {
     Axios.post(
       '/students',
       {

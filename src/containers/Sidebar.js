@@ -7,7 +7,9 @@ function Sidebar() {
 
   useEffect(() => {
     axios.get('/schools').then(res => {
-      setSchool(res.data.data);
+      if (typeof res.data.data !== 'undefined') {
+        setSchool(res.data.data);
+      }
     });
   }, []);
 

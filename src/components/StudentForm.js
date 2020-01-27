@@ -24,17 +24,17 @@ const StudentForm = ({ formType, onSubmit, studentInputFromDb }) => {
   const submitForm = e => {
     e.preventDefault();
     setStudentInput({ isDirty: false });
-    onSubmit({ studentInput });
+    onSubmit(studentInput);
   };
 
   useEffect(() => {
-    setStudentInput({ ...studentInputFromDb });
+    if (typeof studentInputFromDb !== 'undefined') {
+      setStudentInput({ ...studentInputFromDb });
+    }
   }, [studentInputFromDb]);
 
-  const backToPrevious = history => {
-    return () => {
-      history.goBack();
-    };
+  const backToPrevious = () => {
+    history.goBack();
   };
 
   return (
@@ -46,7 +46,7 @@ const StudentForm = ({ formType, onSubmit, studentInputFromDb }) => {
       <h2 className="text-center">{formType} Student Form</h2>
       <hr />
       <div className="form-group">
-        <label htmlFor="firstName">firstName</label>
+        <label htmlFor="firstName">FirstName</label>
         <input
           type="text"
           id="firstName"
@@ -58,7 +58,7 @@ const StudentForm = ({ formType, onSubmit, studentInputFromDb }) => {
         />
       </div>
       <div className="form-group">
-        <label htmlFor="lastName">lastName</label>
+        <label htmlFor="lastName">LastName</label>
         <input
           type="text"
           id="lastName"
@@ -84,7 +84,7 @@ const StudentForm = ({ formType, onSubmit, studentInputFromDb }) => {
       <button
         type="button"
         className="btn btn-danger btn-sm"
-        onClick={backToPrevious(history)}
+        onClick={backToPrevious}
       >
         Back
       </button>
