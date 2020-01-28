@@ -17,12 +17,6 @@ const Schools = () => (
     />
     <Route exact path="/schools/:schoolId/students" component={Students} />
     <Route
-      path="/schools/:schoolId"
-      render={props => (
-        <Redirect to={`/schools/${props.match.params.schoolId}/students`} />
-      )}
-    />
-    <Route
       exact
       path="/schools/:schoolId/students/:studentId"
       component={Student}
@@ -33,6 +27,12 @@ const Schools = () => (
       component={EditStudent}
     />
     <Route exact path="/schools/add" component={NewSchool} />
+    <Route
+      path="/schools/:schoolId"
+      render={props => (
+        <Redirect to={`/schools/${props.match.params.schoolId}/students`} />
+      )}
+    />
   </Switch>
 );
 

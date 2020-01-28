@@ -1,14 +1,17 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
-import { Home, Schools } from '.';
+import { Route, Switch } from 'react-router-dom';
+import { Home, Schools, NotFound } from '.';
 import { Sidebar } from '../containers';
 
 const Content = () => (
   <div className="row">
     <Sidebar />
     <div className="col-7">
-      <Route exact path="/" component={Home} />
-      <Route exact path="/schools/*" component={Schools} />
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route exact path="/schools/*" component={Schools} />
+        <Route component={NotFound} />
+      </Switch>
     </div>
   </div>
 );
