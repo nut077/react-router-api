@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import {
   Students,
   NewStudent,
@@ -16,6 +16,12 @@ const Schools = () => (
       component={NewStudent}
     />
     <Route exact path="/schools/:schoolId/students" component={Students} />
+    <Route
+      path="/schools/:schoolId"
+      render={props => (
+        <Redirect to={`/schools/${props.match.params.schoolId}/students`} />
+      )}
+    />
     <Route
       exact
       path="/schools/:schoolId/students/:studentId"
